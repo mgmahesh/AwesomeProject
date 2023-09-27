@@ -1,7 +1,18 @@
 import * as React from "react";
 import { Box, Text, Heading, VStack, FormControl, Input, Link, Button, HStack, Center, NativeBaseProvider, Checkbox, Spacer } from "native-base";
+import store from "../../Redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { SetLoginCredentials } from '../../Redux/Actions/LoginActions'
 
 const SignIn = () => {
+    const [userName, setUserName]= React.useState('');
+    const [password, setPassword]= React.useState('');
+
+    const dispatch = useDispatch()
+    const login = () => {
+        dispatch(SetLoginCredentials({ username: userName, password: password }))
+    }
+
     return <Center w="100%">
         <Box safeArea p="2" py="8" w="90%" >
             <Heading size="lg" fontWeight="600" mt="16" color="coolGray.800" _dark={{
@@ -13,11 +24,11 @@ const SignIn = () => {
             <VStack space={5} mt="16">
                 <FormControl>
                     <FormControl.Label fontSize="md">Email Address</FormControl.Label>
-                    <Input placeholder="Enter Value" />
+                    <Input placeholder="Enter Value" onChange={setUserName} />
                 </FormControl>
                 <FormControl>
                     <FormControl.Label fontSize="md">Password</FormControl.Label>
-                    <Input type="password" placeholder="Enter Value"/>
+                    <Input type="password" placeholder="Enter Value" onChange={setPassword}/>
                     <HStack mt="5" justifyContent="space-around" alignItems="baseline">
                         <Checkbox value="one" my={2}
                             _text={{
@@ -35,7 +46,7 @@ const SignIn = () => {
                         </Link>
                     </HStack>
                 </FormControl>
-                <Button mt="2" colorScheme="orange">
+                <Button mt="2" colorScheme="orange" onPress={login}>
                     Sign in
                 </Button>
                 <HStack mt="6" justifyContent="center">
